@@ -1,0 +1,25 @@
+#root {
+  max-width: 1280px;
+  height: 100vh;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hide-scroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.action-icon {
+  width: 2em;
+  height: 2em;
+}
