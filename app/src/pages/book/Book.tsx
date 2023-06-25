@@ -22,7 +22,11 @@ export function BookPage() {
 
   return (
     <StyledPage>
-      <Presentation chapter={chapter} setChapter={setChapter} />
+      <Presentation
+        chapterCount={chapters.length}
+        chapter={chapter}
+        setChapter={setChapter}
+      />
       <TextPage
         book={chapters[chapter]}
         memory={memory}
