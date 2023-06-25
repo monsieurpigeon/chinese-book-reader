@@ -1,14 +1,22 @@
 import styled from "styled-components";
 import {
   PiArrowFatDownBold,
-  PiArticleBold,
   PiEyeBold,
   PiEyeClosedBold,
   PiFolderNotchPlusBold,
   PiFolderSimpleDashedBold,
 } from "react-icons/pi";
-import csv from "../../../../assets/list.csv";
+// TODO : import should not be raw but dsv plugin makes the build fail ATM
+import csv from "../../../../assets/list.csv?raw";
 import { useState } from "react";
+
+const wordsTxt = csv.split("\n");
+const headers = wordsTxt.shift();
+const words = wordsTxt.map((line) => {
+  return headers?.split(",").reduce((memo, header, index) => {
+    return { ...memo, [header]: line[index] };
+  }, {});
+});
 
 const StyledActions = styled.div`
   background-color: #333333;
@@ -53,6 +61,12 @@ const StyledVocabularyCard = styled.div`
   align-items: center;
   border: 1px solid transparent;
 
+  &:hover {
+    .hanzi {
+      background-color: #333333;
+    }
+  }
+
   &.selected {
     border: 1px solid blue;
     background-color: #454545;
@@ -72,11 +86,6 @@ const StyledVocabularyCard = styled.div`
 
 interface ActionProps {
   memory: any;
-}
-
-interface Char {
-  hanzi: string;
-  frequency: string;
 }
 
 export function ActionsSection({ memory }: ActionProps) {
@@ -123,18 +132,18 @@ export function ActionsSection({ memory }: ActionProps) {
       </StyledActionBar>
 
       <StyledVocabulary className="hide-scroll">
-        {csv
-          .filter((el: Char) => {
+        {words
+          .filter((el: any) => {
             if (!showKnown) {
               return !memory[el.hanzi];
             } else {
               return true;
             }
           })
-          .map((el: Char, index: number) => (
+          .map((el: any, index: number) => (
             <StyledVocabularyCard
               key={index}
-              className={`${memory[el.hanzi] && "known"} ${
+              className={`clickable ${memory[el.hanzi] && "known"} ${
                 selected[el.hanzi] && "selected"
               }`}
               onClick={() =>
