@@ -10,11 +10,12 @@ import {
 import csv from "../../../../assets/list.csv?raw";
 import { useState } from "react";
 
-const wordsTxt = csv.split("\n");
+const wordsTxt = csv.split("\r\n");
 const headers = wordsTxt.shift();
 const words = wordsTxt.map((line) => {
+  const parts = line.split(",");
   return headers?.split(",").reduce((memo, header, index) => {
-    return { ...memo, [header]: line[index] };
+    return { ...memo, [header]: parts[index] };
   }, {});
 });
 
@@ -103,7 +104,6 @@ export function ActionsSection({ memory }: ActionProps) {
           title="copy selected words to clipboard"
           onClick={() => {
             const text = Object.keys(selected).join("\n");
-            console.log(text);
             navigator.clipboard.writeText(text);
           }}
         >
