@@ -25,13 +25,16 @@ const StyledActions = styled.div`
   flex-direction: column;
   padding: 3px;
   border-radius: 5px;
+  gap: 10px;
 `;
 
 const StyledActionBar = styled.div`
   display: flex;
   justify-content: space-around;
   gap: 5px;
+  height: 32px;
   padding: 5px;
+  padding-bottom: 0;
 `;
 
 const StyledVocabulary = styled.div`
@@ -93,6 +96,8 @@ export function ActionsSection({ memory }: ActionProps) {
   const [showKnown, setShowKnown] = useState(true);
   const [selected, setSelected] = useState<any>({});
 
+  const knownWords = words.filter((el: any) => memory[el.hanzi], [memory]);
+
   return (
     <StyledActions>
       <StyledActionBar>
@@ -102,7 +107,7 @@ export function ActionsSection({ memory }: ActionProps) {
         <div
           className="clickable"
           style={{
-            color: Object.keys(selected).length > 0 ? "yellow" : "inherit",
+            color: Object.keys(selected).length > 0 ? "aqua" : "inherit",
           }}
           title="copy selected words to clipboard"
           onClick={() => {
@@ -133,6 +138,9 @@ export function ActionsSection({ memory }: ActionProps) {
           )}
         </div>
       </StyledActionBar>
+      <div>
+        {knownWords.length} / {words.length} known
+      </div>
 
       <StyledVocabulary className="hide-scroll">
         {words
