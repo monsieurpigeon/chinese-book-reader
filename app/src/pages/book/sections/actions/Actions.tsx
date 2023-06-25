@@ -24,7 +24,7 @@ const StyledActions = styled.div`
   background-color: #333333;
   display: flex;
   flex-direction: column;
-  padding: 3px;
+  padding: 5px;
   border-radius: 5px;
   gap: 10px;
 `;
@@ -34,7 +34,6 @@ const StyledActionBar = styled.div`
   justify-content: space-around;
   gap: 5px;
   height: 32px;
-  padding: 5px;
   padding-bottom: 0;
   .action-icon {
     opacity: 0.5;
@@ -51,7 +50,7 @@ const StyledVocabulary = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #242424;
   border: 5px solid #242424;
 

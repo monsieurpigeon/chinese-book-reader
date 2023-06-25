@@ -48,7 +48,7 @@ const StyledBook = styled.div`
   overflow-y: auto;
   width: 600px;
   row-gap: 5px;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   background-color: #333333;
   justify-content: center;
