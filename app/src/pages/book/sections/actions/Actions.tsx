@@ -9,6 +9,7 @@ import {
 // TODO : import should not be raw but dsv plugin makes the build fail ATM
 import csv from "../../../../assets/list.csv?raw";
 import { useMemo, useState } from "react";
+import { SyncHCModal } from "../../../../components/SyncHCModal";
 
 const wordsTxt = csv.split("\r\n");
 const headers = wordsTxt.shift();
@@ -97,9 +98,10 @@ const StyledVocabularyCard = styled.div`
 
 interface ActionProps {
   memory: any;
+  setMemory: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export function ActionsSection({ memory }: ActionProps) {
+export function ActionsSection({ memory, setMemory }: ActionProps) {
   const [showKnown, setShowKnown] = useState(true);
   const [selected, setSelected] = useState<any>({});
 
@@ -108,11 +110,16 @@ export function ActionsSection({ memory }: ActionProps) {
     () => Object.values(selected).filter((v) => v).length > 0,
     [selected]
   );
+  const [openLoad, setOpenLoad] = useState(true);
 
   return (
     <StyledActions>
       <StyledActionBar>
-        <div className="clickable" title="import known words">
+        <div
+          className="clickable"
+          title="import known words"
+          onClick={() => setOpenLoad((v) => !v)}
+        >
           <PiArrowFatDownBold className="action-icon" />
         </div>
         <div
@@ -157,6 +164,22 @@ export function ActionsSection({ memory }: ActionProps) {
       <div>
         {knownWords.length} / {words.length} known
       </div>
+      {openLoad && (
+        <SyncHCModal
+          onClose={() => {
+            setOpenLoad(false);
+          }}
+          onAddWords={(e) => {
+            setMemory((v: any) => ({
+              ...v,
+              ...e.reduce(
+                (memo, char) => ({ ...memo, [char.Simplified]: true }),
+                {}
+              ),
+            }));
+          }}
+        />
+      )}
 
       <StyledVocabulary className="hide-scroll">
         {words

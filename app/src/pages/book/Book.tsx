@@ -28,7 +28,7 @@ export function BookPage() {
         memory={memory}
         setMemory={setMemory}
       />
-      <ActionsSection memory={memory} />
+      <ActionsSection memory={memory} setMemory={setMemory} />
     </StyledPage>
   );
 }
