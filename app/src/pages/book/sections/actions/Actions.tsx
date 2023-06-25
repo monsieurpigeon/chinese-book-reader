@@ -8,7 +8,7 @@ import {
 } from "react-icons/pi";
 // TODO : import should not be raw but dsv plugin makes the build fail ATM
 import csv from "../../../../assets/list.csv?raw";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const wordsTxt = csv.split("\r\n");
 const headers = wordsTxt.shift();
@@ -35,6 +35,13 @@ const StyledActionBar = styled.div`
   height: 32px;
   padding: 5px;
   padding-bottom: 0;
+  .action-icon {
+    opacity: 0.5;
+  }
+
+  .action-icon:hover {
+    opacity: 1;
+  }
 `;
 
 const StyledVocabulary = styled.div`
@@ -97,6 +104,10 @@ export function ActionsSection({ memory }: ActionProps) {
   const [selected, setSelected] = useState<any>({});
 
   const knownWords = words.filter((el: any) => memory[el.hanzi], [memory]);
+  const hasSelected = useMemo(
+    () => Object.values(selected).filter((v) => v).length > 0,
+    [selected]
+  );
 
   return (
     <StyledActions>
@@ -107,7 +118,7 @@ export function ActionsSection({ memory }: ActionProps) {
         <div
           className="clickable"
           style={{
-            color: Object.keys(selected).length > 0 ? "aqua" : "inherit",
+            color: hasSelected ? "aqua" : "inherit",
           }}
           title="copy selected words to clipboard"
           onClick={() => {
@@ -115,7 +126,12 @@ export function ActionsSection({ memory }: ActionProps) {
             navigator.clipboard.writeText(text);
           }}
         >
-          <PiFolderNotchPlusBold className="action-icon" />
+          <PiFolderNotchPlusBold
+            className="action-icon"
+            style={{
+              opacity: hasSelected ? 1 : 0.5,
+            }}
+          />
         </div>
         <div
           className="clickable"
