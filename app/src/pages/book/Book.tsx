@@ -14,14 +14,20 @@ const StyledPage = styled.div`
   gap: 5px;
 `;
 
+const chapters = book.split("\n/#/\n");
+
 export function BookPage() {
-  const [chapter, setChapter] = useState(1);
+  const [chapter, setChapter] = useState(0);
   const [memory, setMemory] = useState<any>({});
 
   return (
     <StyledPage>
       <Presentation chapter={chapter} setChapter={setChapter} />
-      <TextPage book={book} memory={memory} setMemory={setMemory} />
+      <TextPage
+        book={chapters[chapter]}
+        memory={memory}
+        setMemory={setMemory}
+      />
       <ActionsSection memory={memory} />
     </StyledPage>
   );

@@ -10,7 +10,7 @@ txt = file1.read()
 with open("app/src/assets/book.txt", "w") as f:
     f.write("/".join(jieba.cut(txt, HMM=False)))
 
-charsToRemove = "1234567890（）…：，。\”“‘！？\n、《》"
+charsToRemove = "#1234567890（）…：，。\”“‘！？\n、《》"
 for char in charsToRemove:
     txt = txt.replace(char, "")
 

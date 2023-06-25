@@ -39,6 +39,8 @@ const StyledPresentation = styled.div`
     display: flex;
     flex-direction: column;
     gap: 5px;
+    height: 350px;
+    overflow-y: auto;
     .chapter {
       border-radius: 5px;
       background-color: #242424;
@@ -71,18 +73,22 @@ export function Presentation({ chapter, setChapter }: PresentationProps) {
         </div>
       </div>
 
-      <div className="chapters">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((chap: number) => {
-          return (
-            <div
-              className={`chapter clickable ${chap === chapter && "selected"}`}
-              onClick={() => setChapter(chap)}
-              key={chap}
-            >
-              {chap}
-            </div>
-          );
-        })}
+      <div className="chapters hide-scroll">
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(
+          (chap: number) => {
+            return (
+              <div
+                className={`chapter clickable ${
+                  chap === chapter && "selected"
+                }`}
+                onClick={() => setChapter(chap)}
+                key={chap}
+              >
+                {chap + 1}
+              </div>
+            );
+          }
+        )}
       </div>
     </StyledPresentation>
   );

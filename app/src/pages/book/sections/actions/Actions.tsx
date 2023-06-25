@@ -101,6 +101,9 @@ export function ActionsSection({ memory }: ActionProps) {
         </div>
         <div
           className="clickable"
+          style={{
+            color: Object.keys(selected).length > 0 ? "yellow" : "inherit",
+          }}
           title="copy selected words to clipboard"
           onClick={() => {
             const text = Object.keys(selected).join("\n");
