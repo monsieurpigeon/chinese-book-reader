@@ -29,8 +29,13 @@ const StyledWord = styled.div<{ $size: number }>`
 
   &.known {
     border: 1px solid transparent;
-    z-index: 0;
     background-color: #333333;
+  }
+
+  &.selected {
+    border: 1px solid aqua;
+    background-color: #333333;
+    border-radius: 8px;
   }
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
@@ -145,9 +150,9 @@ export function TextPage({
                 !memory[word] && !isPoncutation && handleMemorize(word)
               }
               key={index}
-              className={
-                (memory[word] || selected[word] || isPoncutation) && "known"
-              }
+              className={`${(memory[word] || isPoncutation) && "known"} ${
+                selected[word] && "selected"
+              }`}
               $size={size}
             >
               {word}

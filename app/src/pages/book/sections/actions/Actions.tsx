@@ -74,14 +74,14 @@ const StyledVocabularyCard = styled.div<{ $known: boolean }>`
   border: 1px solid transparent;
 
   &.selected {
-    border: 1px solid blue;
+    border: 1px solid aqua;
     background-color: #454545;
     opacity: 0.8;
   }
 
   &:hover {
     .hanzi {
-      border: 1px solid ${({ $known }) => ($known ? "white" : "blue")};
+      border: 1px solid ${({ $known }) => ($known ? "white" : "aqua")};
       background-color: #333333;
     }
   }
