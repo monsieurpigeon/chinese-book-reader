@@ -2,8 +2,11 @@ import { useMemo } from "react";
 import styled, { keyframes } from "styled-components";
 
 const logoHop = keyframes`
-    from { transform: translateY(5px); }
-    to   { transform: translateY(-5px); }
+    0% { transform: translateY(0); }
+    25% {transform: translateY(-2px);}
+    50%{transform: translateY(0);}
+    75%  { transform: translateY(2px); }
+    100%   { transform: translateY(0); }
 `;
 
 const StyledPresentation = styled.div`
@@ -15,10 +18,15 @@ const StyledPresentation = styled.div`
   justify-content: space-between;
 
   .logo {
-    font-size: 3em;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    background-color: #242424;
+    border-radius: 5px;
     font-family: "ZCOOL KuaiLe", sans-serif;
     &:hover {
-      animation: ${logoHop} 1s ease-in-out infinite;
+      div {
+        animation: ${logoHop} 1s ease-in-out infinite;
+      }
     }
   }
 
@@ -78,7 +86,9 @@ export function Presentation({
   return (
     <StyledPresentation>
       <div>
-        <div className="logo clickable">马</div>
+        <div className="logo clickable">
+          <div>马</div>
+        </div>
         <div className="header">
           <div className="title">小王子</div>
           <div className="author">安托万·德·圣-修伯里</div>

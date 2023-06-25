@@ -19,6 +19,7 @@ const chapters = book.split("\n/#/\n");
 export function BookPage() {
   const [chapter, setChapter] = useState(0);
   const [memory, setMemory] = useState<any>({});
+  const [selected, setSelected] = useState<any>({});
 
   return (
     <StyledPage>
@@ -28,11 +29,18 @@ export function BookPage() {
         setChapter={setChapter}
       />
       <TextPage
+        chapterNumber={chapter + 1}
         book={chapters[chapter]}
+        memory={memory}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <ActionsSection
+        selected={selected}
+        setSelected={setSelected}
         memory={memory}
         setMemory={setMemory}
       />
-      <ActionsSection memory={memory} setMemory={setMemory} />
     </StyledPage>
   );
 }

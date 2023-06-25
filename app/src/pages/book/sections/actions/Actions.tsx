@@ -64,7 +64,7 @@ const StyledVocabulary = styled.div`
   }
 `;
 
-const StyledVocabularyCard = styled.div`
+const StyledVocabularyCard = styled.div<{ $known: boolean }>`
   background-color: #333333;
   padding: 5px;
   border-radius: 5px;
@@ -73,16 +73,17 @@ const StyledVocabularyCard = styled.div`
   align-items: center;
   border: 1px solid transparent;
 
-  &:hover {
-    .hanzi {
-      background-color: #333333;
-    }
-  }
-
   &.selected {
     border: 1px solid blue;
     background-color: #454545;
     opacity: 0.8;
+  }
+
+  &:hover {
+    .hanzi {
+      border: 1px solid ${({ $known }) => ($known ? "white" : "blue")};
+      background-color: #333333;
+    }
   }
 
   .hanzi {
@@ -91,26 +92,31 @@ const StyledVocabularyCard = styled.div`
     padding: 5px 10px;
     background-color: #242424;
   }
-
-  .frequency {
-  }
 `;
 
 interface ActionProps {
+  selected: any;
+  setSelected: React.Dispatch<React.SetStateAction<any>>;
   memory: any;
   setMemory: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export function ActionsSection({ memory, setMemory }: ActionProps) {
+export function ActionsSection({
+  selected,
+  setSelected,
+  memory,
+  setMemory,
+}: ActionProps) {
   const [showKnown, setShowKnown] = useState(true);
-  const [selected, setSelected] = useState<any>({});
 
   const knownWords = words.filter((el: any) => memory[el.hanzi], [memory]);
-  const hasSelected = useMemo(
-    () => Object.values(selected).filter((v) => v).length > 0,
+
+  const [openLoad, setOpenLoad] = useState(true);
+
+  const selectedSize = useMemo(
+    () => Object.values(selected).filter((v) => v).length,
     [selected]
   );
-  const [openLoad, setOpenLoad] = useState(true);
 
   return (
     <StyledActions>
@@ -125,7 +131,7 @@ export function ActionsSection({ memory, setMemory }: ActionProps) {
         <div
           className="clickable"
           style={{
-            color: hasSelected ? "aqua" : "inherit",
+            color: selectedSize > 0 ? "aqua" : "inherit",
           }}
           title="copy selected words to clipboard"
           onClick={() => {
@@ -136,7 +142,7 @@ export function ActionsSection({ memory, setMemory }: ActionProps) {
           <PiFolderNotchPlusBold
             className="action-icon"
             style={{
-              opacity: hasSelected ? 1 : 0.5,
+              opacity: selectedSize > 0 ? 1 : 0.5,
             }}
           />
         </div>
@@ -161,6 +167,14 @@ export function ActionsSection({ memory, setMemory }: ActionProps) {
           )}
         </div>
       </StyledActionBar>
+      <div
+        style={{
+          fontWeight: selectedSize > 0 ? "bold" : "inherit",
+          color: selectedSize > 0 ? "aqua" : "inherit",
+        }}
+      >
+        {selectedSize} selected
+      </div>
       <div>
         {knownWords.length} / {words.length} known
       </div>
@@ -196,7 +210,9 @@ export function ActionsSection({ memory, setMemory }: ActionProps) {
               className={`clickable ${memory[el.hanzi] && "known"} ${
                 selected[el.hanzi] && "selected"
               }`}
+              $known={memory[el.hanzi]}
               onClick={() =>
+                !memory[el.hanzi] &&
                 setSelected((v: any) => ({
                   ...v,
                   [el.hanzi]: !v[el.hanzi],

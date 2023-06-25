@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Papa from "papaparse";
 
 const StyledModal = styled.dialog`
+  z-index: 2;
   border-radius: 5px;
   background-color: #242424;
   border: 1px solid #696969;
