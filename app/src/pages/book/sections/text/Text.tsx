@@ -52,6 +52,8 @@ const StyledBook = styled.div`
   border-radius: 5px;
   background-color: #333333;
   justify-content: center;
+  align-content: start;
+  height: 100%;
 
   &::after {
     content: "";
