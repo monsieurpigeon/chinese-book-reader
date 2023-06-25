@@ -30,6 +30,7 @@ const StyledWord = styled.div<{ $size: number }>`
   &.known {
     border: 1px solid transparent;
     background-color: #333333;
+    cursor: inherit;
   }
 
   &.selected {
