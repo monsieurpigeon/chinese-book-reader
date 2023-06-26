@@ -87,7 +87,7 @@ export function Presentation({
     <StyledPresentation>
       <div>
         <div className="logo clickable">
-          <div>马</div>
+          <div>骀</div>
         </div>
         <div className="header">
           <div className="title">小王子</div>
