@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import styled, { keyframes } from "styled-components";
+import { COLORS } from "../../../../utils/consts";
 
 const logoHop = keyframes`
     0% { transform: translateY(0); }
@@ -60,7 +61,7 @@ const StyledPresentation = styled.div`
       }
       &.selected {
         background-color: #333333;
-        border: 1px solid yellow;
+        border: 1px solid ${COLORS.highlight};
         opacity: 0.8;
       }
     }

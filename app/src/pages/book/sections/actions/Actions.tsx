@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import {
-  PiArrowFatDownBold,
   PiEyeBold,
   PiEyeClosedBold,
   PiFolderNotchPlusBold,
   PiFolderSimpleDashedBold,
+  PiInfoBold,
 } from "react-icons/pi";
 // TODO : import should not be raw but dsv plugin makes the build fail ATM
 import csv from "../../../../assets/list.csv?raw";
 import { useMemo, useState } from "react";
 import { SyncHCModal } from "../../../../components/SyncHCModal";
 import useLocalStorage from "../../../../utils/hooks/useLocalStorage";
-import { LOAD_KNOW_WORDS_KEY } from "../../../../utils/consts";
+import { COLORS, LOAD_KNOW_WORDS_KEY } from "../../../../utils/consts";
 
 const wordsTxt = csv.split("\r\n");
 const headers = wordsTxt.shift();
@@ -59,8 +59,7 @@ const StyledVocabulary = styled.div`
   .known {
     .hanzi {
       background-color: #333333;
-      border: 1px solid yellow;
-      opacity: 0.8;
+      border: 1px solid ${COLORS.highlight};
     }
   }
 `;
@@ -127,7 +126,7 @@ export function ActionsSection({
           title="import known words"
           onClick={() => setOpenLoad((v) => !v)}
         >
-          <PiArrowFatDownBold className="action-icon" />
+          <PiInfoBold className="action-icon" />
         </div>
         <div
           className="clickable"
@@ -205,6 +204,7 @@ export function ActionsSection({
               return true;
             }
           })
+          .filter((el: any) => el?.hanzi !== " ")
           .map((el: any, index: number) => (
             <StyledVocabularyCard
               key={index}

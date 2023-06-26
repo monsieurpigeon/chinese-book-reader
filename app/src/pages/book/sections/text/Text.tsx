@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { PiMinusBold, PiPlusBold } from "react-icons/pi";
 import styled from "styled-components";
+import { Sentence } from "./Sentence";
 
 interface TextProps {
   chapterNumber: number;
@@ -10,56 +11,18 @@ interface TextProps {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const StyledWord = styled.div<{ $size: number }>`
-  user-select: none;
-  padding: 2px 4px;
-  cursor: pointer;
-  font-size: ${({ $size }) => $size}em;
-
-  border: 1px solid #161616;
-  background-color: #242424;
-  flex-grow: 1;
-
-  z-index: 1;
-  &:hover {
-    border: 1px solid #696969;
-    z-index: 2;
-    background-color: #333333;
-  }
-
-  &.known {
-    border: 1px solid transparent;
-    background-color: #333333;
-    cursor: inherit;
-  }
-
-  &.selected {
-    border: 1px solid aqua;
-    background-color: #333333;
-    border-radius: 8px;
-  }
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
-`;
-
 const StyledBook = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   overflow-y: auto;
   width: 600px;
-  row-gap: 5px;
+  gap: 5px;
+
   padding: 5px;
   border-radius: 5px;
   background-color: #333333;
-  justify-content: center;
-  align-content: start;
-  height: 100%;
 
-  &::after {
-    content: "";
-    flex: auto;
-    flex-grow: 25;
-  }
+  height: 100%;
 `;
 
 const StyledSection = styled.div`
@@ -90,26 +53,6 @@ const StyledZoom = styled.div`
     opacity: 1;
   }
 `;
-const ponctuation = [
-  "",
-  "（",
-  "）",
-  "…",
-  "：",
-  "，",
-  "。",
-  "\\",
-  "”",
-  "“",
-  "‘",
-  "！",
-  "？",
-  "\n",
-  "、",
-  "《",
-  "》",
-  '"',
-];
 
 export function TextPage({
   chapterNumber,
@@ -118,10 +61,13 @@ export function TextPage({
   selected,
   setSelected,
 }: TextProps) {
-  const wholeBook = useMemo(() => book.split("/").slice(0, 1000), [book]);
-  const handleMemorize = (word: string) => {
-    setSelected((memory: any) => ({ ...memory, [word]: !memory[word] }));
-  };
+  const wholeBook = useMemo(
+    () =>
+      book
+        .split("\n")
+        .map((sentence) => sentence.split("/").filter((word) => word !== "")),
+    [book]
+  );
 
   const [size, setSize] = useState(1.4);
 
@@ -145,21 +91,16 @@ export function TextPage({
         </StyledZoom>
       </StyledChapter>
       <StyledBook className="hide-scroll">
-        {wholeBook.map((word: string, index: number) => {
-          const isPoncutation = ponctuation.includes(word);
+        {wholeBook.map((sentence: string[], index: number) => {
           return (
-            <StyledWord
-              onClick={() =>
-                !memory[word] && !isPoncutation && handleMemorize(word)
-              }
+            <Sentence
               key={index}
-              className={`${(memory[word] || isPoncutation) && "known"} ${
-                selected[word] && "selected"
-              }`}
-              $size={size}
-            >
-              {word}
-            </StyledWord>
+              sentence={sentence}
+              memory={memory}
+              selected={selected}
+              setSelected={setSelected}
+              size={size}
+            />
           );
         })}
       </StyledBook>
