@@ -10,6 +10,8 @@ import {
 import csv from "../../../../assets/list.csv?raw";
 import { useMemo, useState } from "react";
 import { SyncHCModal } from "../../../../components/SyncHCModal";
+import useLocalStorage from "../../../../utils/hooks/useLocalStorage";
+import { LOAD_KNOW_WORDS_KEY } from "../../../../utils/consts";
 
 const wordsTxt = csv.split("\r\n");
 const headers = wordsTxt.shift();
@@ -110,7 +112,7 @@ export function ActionsSection({
 
   const knownWords = words.filter((el: any) => memory[el.hanzi], [memory]);
 
-  const [openLoad, setOpenLoad] = useState(true);
+  const [openLoad, setOpenLoad] = useLocalStorage(LOAD_KNOW_WORDS_KEY, true);
 
   const selectedSize = useMemo(
     () => Object.values(selected).filter((v) => v).length,

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Presentation } from "./sections/presentation/Presentation";
 import { TextPage } from "./sections/text/Text";
 import { ActionsSection } from "./sections/actions/Actions";
+import useLocalStorage from "../../utils/hooks/useLocalStorage";
+import { KNOWN_WORDS_KEY } from "../../utils/consts";
 
 const StyledPage = styled.div`
   display: flex;
@@ -18,7 +20,7 @@ const chapters = book.split("\n/#/\n");
 
 export function BookPage() {
   const [chapter, setChapter] = useState(0);
-  const [memory, setMemory] = useState<any>({});
+  const [memory, setMemory] = useLocalStorage<any>(KNOWN_WORDS_KEY, {});
   const [selected, setSelected] = useState<any>({});
 
   return (
