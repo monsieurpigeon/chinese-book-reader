@@ -55,6 +55,7 @@ const StyledVocabulary = styled.div`
   border-radius: 8px;
   background-color: #242424;
   border: 5px solid #242424;
+  min-height: 200px;
 
   .known {
     .hanzi {
@@ -72,7 +73,6 @@ const StyledVocabularyCard = styled.div<{ $known: boolean }>`
   justify-content: space-between;
   align-items: center;
   border: 1px solid transparent;
-
   &.selected {
     border: 1px solid aqua;
     background-color: #454545;
@@ -115,6 +115,14 @@ export function ActionsSection({
 
   const selectedSize = useMemo(
     () => Object.values(selected).filter((v) => v).length,
+    [selected]
+  );
+
+  const selectedWords = useMemo(
+    () =>
+      words.filter((el: any) => {
+        return selected[el.hanzi];
+      }),
     [selected]
   );
 
@@ -196,6 +204,33 @@ export function ActionsSection({
       )}
 
       <StyledVocabulary className="hide-scroll">
+        {selectedWords.length > 0 &&
+          selectedWords
+            .filter((el: any) => el?.hanzi !== " ")
+            .map((el: any, index: number) => {
+              return (
+                <StyledVocabularyCard
+                  key={index}
+                  className={`clickable ${memory[el.hanzi] && "known"} ${
+                    selected[el.hanzi] && "selected"
+                  }`}
+                  $known={memory[el.hanzi]}
+                  onClick={() =>
+                    !memory[el.hanzi] &&
+                    setSelected((v: any) => ({
+                      ...v,
+                      [el.hanzi]: !v[el.hanzi],
+                    }))
+                  }
+                >
+                  <div className="hanzi">{el.hanzi}</div>
+                  <div className="frequency">{el.frequency}</div>
+                </StyledVocabularyCard>
+              );
+            })}
+      </StyledVocabulary>
+
+      <StyledVocabulary className="hide-scroll">
         {words
           .filter((el: any) => {
             if (!showKnown) {
@@ -204,6 +239,7 @@ export function ActionsSection({
               return true;
             }
           })
+          .filter((el: any) => !selected[el.hanzi])
           .filter((el: any) => el?.hanzi !== " ")
           .map((el: any, index: number) => (
             <StyledVocabularyCard
